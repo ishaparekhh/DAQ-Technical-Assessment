@@ -89,3 +89,9 @@ code {
   }
 }
 
+@layer utilities {
+  .temp-safe   { @apply text-green-500; }
+  .temp-near   { @apply text-yellow-500; }
+  .temp-unsafe { @apply text-red-500; }
+}
+

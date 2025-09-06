@@ -18,6 +18,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-use-websocket": "^4.5.0",
+    "recharts": "^2.15.3",
+    "sonner": "^2.0.7",
     "tailwind-merge": "^3.0.1",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^4.9.5",

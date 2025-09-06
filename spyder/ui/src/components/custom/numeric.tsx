@@ -1,25 +1,31 @@
 interface TemperatureProps {
-  temp: any;
+  temp: number | string;
+  ranges?: { safeMin: number; safeMax: number; nearBand: number };
 }
 
-/**
- * Numeric component that displays the temperature value.
- * 
- * @param {number} props.temp - The temperature value to be displayed.
- * @returns {JSX.Element} The rendered Numeric component.
- */
-function Numeric({ temp }: TemperatureProps) {
-  // TODO: Change the color of the text based on the temperature
-  // HINT:
-  //  - Consider using cn() from the utils folder for conditional tailwind styling
-  //  - (or) Use the div's style prop to change the colour
-  //  - (or) other solution
+function Numeric({ temp, ranges = { safeMin: 20, safeMax: 80, nearBand: 5 } }: TemperatureProps) {
+  const n = typeof temp === "number" ? temp : Number(temp);
+  const isNum = Number.isFinite(n);
 
-  // Justify your choice of implementation in brainstorming.md
+  const display = isNum ? n.toFixed(3) : "—";
+  const { safeMin, safeMax, nearBand } = ranges;
+
+  let colorClass = "text-foreground";
+  if (isNum) {
+    const nearLowHi = safeMin + nearBand;
+    const nearHiLo = safeMax - nearBand;
+    if (n < safeMin || n > safeMax) {
+      colorClass = "temp-unsafe";
+    } else if ((n >= safeMin && n <= nearLowHi) || (n >= nearHiLo && n <= safeMax)) {
+      colorClass = "temp-near";
+    } else {
+      colorClass = "temp-safe";
+    }
+  }
 
   return (
-    <div className="text-foreground text-4xl font-bold">
-      {`${temp}°C`}
+    <div className={`text-4xl font-bold ${colorClass}`}>
+      {`${display}°C`}
     </div>
   );
 }
